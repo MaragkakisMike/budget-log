@@ -1,0 +1,16 @@
+# Node
+node_modules/
+
+# Expo / RN
+.expo/
+
+dist/
+build/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
