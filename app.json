@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "scheme": "acme",
+    "plugins": [
+      "expo-router",
+      "expo-sqlite"
+    ],
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "BudgetLog",
+    "slug": "budgetlog",
+    "icon": "./src/assets/icon.png",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "version": "1.0.0",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "android": {
+      "package": "com.dailyclassbook.app"
+    },
+    "ios": {
+      "bundleIdentifier": "com.dailyclassbook.app"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "37ec8eef-9290-4694-a99b-64e3b2ac562f"
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "general": {
+    "overview": "Overview",
+    "noTransactions": "No transactions found"
+  },
+  "actions": {
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "settings": {
+    "settings": "Settings",
+    "language": "Language",
+    "currency": "Currency",
+    "appearance": "Appearance",
+    "toggle_dark_mode": "Toggle Dark Mode",
+    "about": "About",
+    "app_version": "App Version",
+    "privacy_policy": "Privacy Policy",
+    "help_support": "Help & Support"
+  },
+  "accounts": {
+    "title": "Accounts",
+    "add_account": "Add new account",
+    "account_name": "Account Name",
+    "account_details": "Account Details",
+    "initial_value": "Initial Value",
+    "edit_account": "Edit Account",
+    "save_account": "Save Account",
+    "update_account": "Update Account",
+    "transfer": "Transfer"
+  },
+  "navigation": {
+    "home": "Home",
+    "analytics": "Analytics",
+    "categories": "Categories",
+    "settings": "Settings",
+    "history": "History"
+  },
+  "transactions": {
+    "transfer": "Transfer",
+    "transfers": "Transfers",
+    "income": "Income",
+    "income_label": "Income",
+    "expenses": "Expenses",
+    "expense": "Expense",
+    "uncategorized": "Uncategorized"
+  },
+  "categories": {
+    "categories": "Categories",
+    "new_category": "New Category",
+    "category_name": "Category Name",
+    "edit_category": "Edit Category",
+    "category_details": "Category Details",
+    "tap_to_select_icon": "Tap to select icon",
+    "add_new_category": "Add Category"
+  },
+  "form": {
+    "amount": "Amount",
+    "date": "Date",
+    "label": {
+      "title": "Title",
+      "category": "Category",
+      "account": "Account",
+      "fromAccount": "From Account",
+      "toAccount": "To Account"
+    },
+    "placeholder": {
+      "title": "Enter title",
+      "category": "Select category",
+      "account": "Select account",
+      "fromAccount": "Select from account",
+      "toAccount": "Select to account"
+    },
+    "error": {
+      "amount": "Amount is required",
+      "date": "Date is required",
+      "title": "Title is required",
+      "category": "Category is required",
+      "account": "Account is required",
+      "fromAccount": "From account is required",
+      "toAccount": "To account is required",
+      "sameAccount": "From and To accounts cannot be the same",
+      "notEnoughAccounts": "You need at least two accounts to make a transfer"
+    },
+    "validation": {
+      "amount": "Amount must be a number",
+      "account": "Accounts must be different"
+    }
+  },
+  "common": {
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "thisYear": "This Year"
+  }
+}
