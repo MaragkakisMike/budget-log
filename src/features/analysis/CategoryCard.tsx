@@ -1,6 +1,6 @@
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { CategoryRecord } from "@/interfaces";
-import React, { FC } from "react";
+import { FC } from "react";
 import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { cn } from "@/utils";
 import { useTranslation } from "react-i18next";
@@ -30,7 +30,7 @@ export const CategoryCard: FC<CategoryCardProps> = ({
         style={{ width: cardWidth, minHeight: 110 }}
         className={cn(
           "bg-containerBackground-light dark:bg-containerBackground-dark rounded-2xl relative shadow",
-          "pt-padding-sm justify-center gap-gap-sm"
+          "pt-padding-sm justify-center gap-gap-sm",
         )}
       >
         <View className="flex-row justify-center items-center">

@@ -5,6 +5,7 @@ import AccountsContainer from "@/features/home/AccountsContainer";
 import IncomeExpensesContainer from "@/features/home/IncomeExpensesContainer";
 import HistoryContainer from "@/features/home/historyContainer";
 import { useTransactions } from "@/hooks/useTransactions";
+import { BottomSheetProvider } from "@/contexts/bottomSheet.context";
 
 const HomePage = () => {
   const [selectedAction, setSelectedAction] = useState<"income" | "expense">();
@@ -15,17 +16,19 @@ const HomePage = () => {
   }, []);
 
   return (
-    <Container>
-      <AccountsContainer />
-      <View className="px-padding-md gap-gap-md">
-        <IncomeExpensesContainer onSelectAction={handleSelectAction} />
-        <HistoryContainer
-          transactions={transactions}
-          transfers={transfers}
-          selectedAction={selectedAction}
-        />
-      </View>
-    </Container>
+    <BottomSheetProvider>
+      <Container>
+        <AccountsContainer />
+        <View className="px-padding-md gap-gap-md">
+          <IncomeExpensesContainer onSelectAction={handleSelectAction} />
+          <HistoryContainer
+            transactions={transactions}
+            transfers={transfers}
+            selectedAction={selectedAction}
+          />
+        </View>
+      </Container>
+    </BottomSheetProvider>
   );
 };
 

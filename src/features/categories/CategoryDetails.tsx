@@ -1,6 +1,6 @@
 import { View, TextInput, Text } from "react-native";
 import { BottomSheet } from "@/components/BottomSheet";
-import { FC, useState, useCallback, useEffect, MutableRefObject } from "react";
+import { FC, useState, useCallback, useEffect } from "react";
 import CustomIconPicker from "@/components/CustomIconPicker";
 import ColorPicker from "react-native-wheel-color-picker";
 import useDatabase from "@/hooks/useDatabase";
@@ -9,22 +9,26 @@ import {
   updateCategory,
   deleteCategory,
 } from "@/db/mutations/categories";
-import { useCategories } from "@/contexts/categories/categories-context";
+import { useCategories } from "@/contexts/categories.context";
 import { categoryIcons } from "@/constants";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/utils";
 import { useColorScheme } from "nativewind";
 import { COLORS } from "@/theme";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ActionButtons } from "@/components/ActionButtons";
+import { useBottomSheet } from "@/contexts/bottomSheet.context";
 
-export const CategoryDetails: FC<{
-  categoryBottomSheetRef: MutableRefObject<BottomSheetModal>;
-}> = ({ categoryBottomSheetRef }) => {
+export const CategoryDetails: FC = () => {
   const { colorScheme } = useColorScheme();
   const drizzleDB = useDatabase();
   const { selectedCategory, setSelectedCategory } = useCategories();
   const { t } = useTranslation();
+  const {
+    ref: categoryBottomSheetRef,
+    isOpen,
+    onSheetClose,
+    onSheetOpen,
+  } = useBottomSheet();
 
   const getRandomColor = () => {
     const colors = [
@@ -51,14 +55,15 @@ export const CategoryDetails: FC<{
     ];
     return colors[Math.floor(Math.random() * colors.length)];
   };
-
-  const isViewMode = !!selectedCategory;
-  const [isEditing, setIsEditing] = useState(!!selectedCategory);
-  const [newCategory, setNewCategory] = useState({
+  const initialCategoryState = {
     name: "",
     icon: categoryIcons[Math.floor(Math.random() * categoryIcons.length)],
     color: getRandomColor(),
-  });
+  };
+
+  const isViewMode = !!selectedCategory;
+  const [isEditing, setIsEditing] = useState(!!selectedCategory);
+  const [newCategory, setNewCategory] = useState(initialCategoryState);
   const [isIconModalVisible, setIsIconModalVisible] = useState(false);
 
   useEffect(() => {
@@ -73,7 +78,7 @@ export const CategoryDetails: FC<{
       });
       setIsEditing(true);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, isOpen]);
 
   const handleColorChange = useCallback((color: string) => {
     requestAnimationFrame(() => {
@@ -106,10 +111,11 @@ export const CategoryDetails: FC<{
       }
     } else {
       createCategory(drizzleDB, newCategory);
+      setNewCategory(initialCategoryState);
     }
 
     setIsEditing(false);
-    categoryBottomSheetRef.current?.dismiss();
+    onSheetClose();
   };
 
   const handleEdit = () => {
@@ -119,21 +125,17 @@ export const CategoryDetails: FC<{
   const handleDelete = useCallback(() => {
     if (selectedCategory) {
       deleteCategory(drizzleDB, selectedCategory);
-      categoryBottomSheetRef.current?.dismiss();
+      onSheetClose();
     }
-  }, [drizzleDB, selectedCategory, categoryBottomSheetRef]);
+  }, [drizzleDB, selectedCategory, onSheetClose]);
 
   const handleCancel = () => {
     if (selectedCategory) {
       setNewCategory(selectedCategory);
       setIsEditing(false);
     } else {
-      categoryBottomSheetRef.current?.dismiss();
+      onSheetClose();
     }
-  };
-
-  const handleDismiss = () => {
-    setSelectedCategory(null);
   };
 
   return (
@@ -146,7 +148,6 @@ export const CategoryDetails: FC<{
             : t("categories.category_details")
           : t("categories.new_category")
       }
-      onDismiss={handleDismiss}
     >
       <View className="w-full items-center gap-gap-lg">
         <View className="w-full items-start">
@@ -174,7 +175,7 @@ export const CategoryDetails: FC<{
               editable={isEditing}
               className={cn(
                 "flex-1 text-text-md text-textPrimary-light dark:text-textPrimary-dark",
-                "border-b border-textPrimary-light dark:border-textPrimary-dark"
+                "border-b border-textPrimary-light dark:border-textPrimary-dark",
               )}
             />
           </View>

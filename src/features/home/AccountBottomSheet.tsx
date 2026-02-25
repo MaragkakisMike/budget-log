@@ -1,7 +1,6 @@
 import { useEffect, FC, useState } from "react";
 import { View } from "react-native";
 import { useForm } from "react-hook-form";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -14,10 +13,10 @@ import { BottomSheet } from "@/components/BottomSheet";
 import { FormTextInput } from "@/components/FormComponents/input";
 import { Account } from "@/db/schema";
 import { ActionButtons } from "@/components/ActionButtons";
+import { useBottomSheet } from "@/contexts/bottomSheet.context";
 
 interface AccountBottomSheetProps {
-  bottomSheetModalRef: React.MutableRefObject<BottomSheetModal | null>;
-  account?: Account;
+  account?: Account | null;
   onSave?: () => void;
 }
 
@@ -27,14 +26,14 @@ type AccountFormData = {
 };
 
 export const AccountBottomSheet: FC<AccountBottomSheetProps> = ({
-  bottomSheetModalRef,
   account,
   onSave,
 }) => {
   const drizzleDB = useDatabase();
   const { t } = useTranslation();
+  const { onSheetClose, isOpen } = useBottomSheet();
   const isViewMode = !!account;
-  const [isEditing, setIsEditing] = useState(!!account);
+  const [isEditing, setIsEditing] = useState(true);
 
   const {
     control,
@@ -59,7 +58,7 @@ export const AccountBottomSheet: FC<AccountBottomSheetProps> = ({
       reset({ name: "", balance: "" });
       setIsEditing(true);
     }
-  }, [account, reset]);
+  }, [account, reset, isOpen]);
 
   const onSubmit = (data: AccountFormData) => {
     const balance = parseFloat(data.balance);
@@ -76,7 +75,7 @@ export const AccountBottomSheet: FC<AccountBottomSheetProps> = ({
     reset();
     setIsEditing(false);
     if (onSave) onSave();
-    bottomSheetModalRef.current?.dismiss();
+    onSheetClose();
   };
 
   const handleEdit = () => {
@@ -87,7 +86,7 @@ export const AccountBottomSheet: FC<AccountBottomSheetProps> = ({
     if (account) {
       deleteAccount(drizzleDB, account.id);
       if (onSave) onSave();
-      bottomSheetModalRef.current?.dismiss();
+      onSheetClose();
     }
   };
 
@@ -99,13 +98,12 @@ export const AccountBottomSheet: FC<AccountBottomSheetProps> = ({
       });
       setIsEditing(false);
     } else {
-      bottomSheetModalRef.current?.dismiss();
+      onSheetClose();
     }
   };
 
   return (
     <BottomSheet
-      bottomSheetModalRef={bottomSheetModalRef}
       title={
         isViewMode
           ? isEditing
@@ -118,7 +116,7 @@ export const AccountBottomSheet: FC<AccountBottomSheetProps> = ({
         control={control}
         name="name"
         label={t("accounts.account_name")}
-        placeholder={t("accounts.account_name")}
+        placeholder={t("accounts.placeholders.account_name")}
         rules={{ required: t("accounts.error.name_required") }}
         error={errors.name}
         editable={isEditing}
@@ -128,7 +126,7 @@ export const AccountBottomSheet: FC<AccountBottomSheetProps> = ({
         control={control}
         name="balance"
         label={t("accounts.initial_value")}
-        placeholder={t("accounts.initial_value")}
+        placeholder={t("accounts.placeholders.initial_value")}
         keyboardType="numeric"
         rules={{
           required: t("accounts.error.balance_required"),

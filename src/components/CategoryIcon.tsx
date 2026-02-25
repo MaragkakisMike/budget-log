@@ -1,4 +1,3 @@
-import React from "react";
 import { View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { cn } from "@/utils";
@@ -14,7 +13,7 @@ export const CategoryIcon = ({ category, size = "sm" }) => {
     <View
       className={cn(
         "justify-center items-center rounded-full m-margin-xs bg-transparent",
-        sizeClasses[size]
+        sizeClasses[size],
       )}
       style={{ backgroundColor: `${category.color}20` }}
     >

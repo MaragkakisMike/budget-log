@@ -1,4 +1,10 @@
-import { View, Text, TextInput, TextInputProps } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TextInputProps,
+  useColorScheme,
+} from "react-native";
 import {
   Controller,
   Control,
@@ -9,6 +15,7 @@ import {
 
 import { cn } from "@/utils";
 import { formClasses } from "./formClasses";
+import { COLORS } from "@/theme";
 
 interface FormTextInputProps<T extends FieldValues> extends TextInputProps {
   control: Control<T>;
@@ -30,6 +37,7 @@ export function FormTextInput<T extends FieldValues>({
   disabled = false,
   ...rest
 }: FormTextInputProps<T>) {
+  const colorScheme = useColorScheme();
   return (
     <View className={formClasses.inputContainer}>
       <Text className={formClasses.inputLabel}>{label}</Text>
@@ -46,6 +54,11 @@ export function FormTextInput<T extends FieldValues>({
             onChangeText={onChange}
             onBlur={onBlur}
             placeholder={placeholder}
+            placeholderTextColor={
+              colorScheme === "dark"
+                ? COLORS["textSecondary-light"]
+                : COLORS["textSecondary-dark"]
+            }
             {...rest}
           />
         )}

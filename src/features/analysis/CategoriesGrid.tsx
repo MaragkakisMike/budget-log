@@ -1,13 +1,13 @@
 import { CategoryRecord } from "@/interfaces";
-import React, { FC } from "react";
+import { FC } from "react";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 import CategoryCard from "./CategoryCard";
+import { useBottomSheet } from "@/contexts/bottomSheet.context";
 
 interface Props {
   categories: CategoryRecord[];
   isCategoryPage?: boolean;
-  onNewCategory?: () => void;
   onCategoryPress?: (category: CategoryRecord) => void;
   onLongPress?: (category: CategoryRecord) => void;
 }
@@ -15,9 +15,9 @@ interface Props {
 export const CategoriesGrid: FC<Props> = ({
   categories,
   isCategoryPage = false,
-  onNewCategory,
   onCategoryPress,
 }) => {
+  const { onSheetOpen } = useBottomSheet();
   const router = useRouter();
 
   return (
@@ -27,17 +27,19 @@ export const CategoriesGrid: FC<Props> = ({
           key={category.categoryId}
           category={category}
           onPress={() => {
-            if (isCategoryPage) onCategoryPress?.(category);
-            else
+            if (isCategoryPage) {
+              onSheetOpen();
+              onCategoryPress?.(category);
+            } else
               router.navigate(
-                `/(tabs)/analysis/selectedCategory/${category.categoryId}`
+                `/(tabs)/analysis/selectedCategory/${category.categoryId}`,
               );
           }}
         />
       ))}
 
       {isCategoryPage && (
-        <CategoryCard key={-1} isAddCategory onPress={onNewCategory} />
+        <CategoryCard key={-1} isAddCategory onPress={onSheetOpen} />
       )}
     </View>
   );

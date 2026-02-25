@@ -9,27 +9,25 @@ import { CardContainer } from "@/components/CardContainer";
 import { CategoryDetails } from "@/features/categories/CategoryDetails";
 import { getCategories } from "@/db/queries/categories";
 import useDatabase from "@/hooks/useDatabase";
-import { useCategories } from "@/contexts/categories/categories-context";
+import { useCategories } from "@/contexts/categories.context";
 import CategoriesGrid from "@/features/analysis/CategoriesGrid";
 import { CategoryRecord } from "@/interfaces";
+import {
+  BottomSheetProvider,
+  useBottomSheet,
+} from "@/contexts/bottomSheet.context";
 
 const Categories: FC = () => {
   const drizzleDB = useDatabase();
   const { setSelectedCategory } = useCategories();
-  const categoryBottomSheetRef = useRef<BottomSheetModal>(null);
   const { t } = useTranslation();
   const { data: categories } = useLiveQuery(getCategories(drizzleDB));
-
-  const toggleBottomSheet = () => {
-    categoryBottomSheetRef.current?.present();
-  };
 
   const handleCategorySelection = useCallback(
     (category) => {
       setSelectedCategory(category);
-      categoryBottomSheetRef.current?.present();
     },
-    [setSelectedCategory]
+    [setSelectedCategory],
   );
 
   const filterCategories = () => {
@@ -44,20 +42,21 @@ const Categories: FC = () => {
   };
 
   return (
-    <Container>
-      <View className="px-padding-md pt-padding-md">
-        <CardContainer title={t("categories.categories")} />
-      </View>
+    <BottomSheetProvider>
+      <Container>
+        <View className="px-padding-md pt-padding-md">
+          <CardContainer title={t("categories.categories")} />
+        </View>
 
-      <CategoriesGrid
-        categories={filterCategories()}
-        onNewCategory={toggleBottomSheet}
-        onCategoryPress={handleCategorySelection}
-        isCategoryPage
-      />
+        <CategoriesGrid
+          categories={filterCategories()}
+          onCategoryPress={handleCategorySelection}
+          isCategoryPage
+        />
 
-      <CategoryDetails categoryBottomSheetRef={categoryBottomSheetRef} />
-    </Container>
+        <CategoryDetails />
+      </Container>
+    </BottomSheetProvider>
   );
 };
 

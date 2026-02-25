@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Container from "@/components/Container";
@@ -9,6 +8,7 @@ import { VERSION } from "@/constants";
 import { COLORS } from "@/theme";
 import { useColorScheme } from "nativewind";
 import CardContainer from "@/components/CardContainer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface LanguageItem {
   name: string;
@@ -19,11 +19,16 @@ interface LanguageList {
   [key: string]: LanguageItem;
 }
 
-const Settings: React.FC = () => {
+const Settings = () => {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const isDarkMode = colorScheme === "dark";
   const { t, i18n } = useTranslation();
   const typedLanguages = languages as LanguageList;
+
+  const handleColorSchemeToggle = async () => {
+    await AsyncStorage.setItem("color-scheme", isDarkMode ? "light" : "dark");
+    toggleColorScheme();
+  };
 
   const renderLanguageOptions = () => (
     <View className="w-full gap-gap-sm bg-background-light dark:bg-background-dark">
@@ -72,7 +77,7 @@ const Settings: React.FC = () => {
               rightElement={
                 <Switch
                   value={isDarkMode}
-                  onValueChange={toggleColorScheme}
+                  onValueChange={handleColorSchemeToggle}
                   trackColor={{
                     false: COLORS["trackOffColor-light"],
                     true: COLORS["trackOnColor"],

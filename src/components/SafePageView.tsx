@@ -16,7 +16,7 @@ export default function SafePageView({
   ...rest
 }: SafePageViewProps) {
   const insets = useSafeAreaInsets();
-
+  const color = `containerBackground-${colorScheme || "light"}`;
   return (
     <View
       className="flex-1 "
@@ -27,12 +27,7 @@ export default function SafePageView({
       }}
       {...rest}
     >
-      <StatusBar
-        style={"auto"}
-        backgroundColor={
-          COLORS[`containerBackground-${colorScheme || "light"}`]
-        }
-      />
+      <StatusBar style={"auto"} backgroundColor={COLORS[color]} />
 
       {children}
     </View>

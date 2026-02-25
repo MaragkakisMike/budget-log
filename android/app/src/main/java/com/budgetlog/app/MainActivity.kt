@@ -1,4 +1,4 @@
-package com.dailyclassbook.app
+package com.budgetlog.app
 
 import android.os.Build
 import android.os.Bundle

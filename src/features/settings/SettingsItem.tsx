@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -43,7 +42,7 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
         {...pressableProps}
         className={cn(
           `p-padding-${padding}`,
-          padding === "sm" && "px-padding-default"
+          padding === "sm" && "px-padding-default",
         )}
         style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
       >

@@ -1,10 +1,6 @@
-import { drizzle } from "drizzle-orm/expo-sqlite";
-import { useSQLiteContext } from "expo-sqlite";
+import { useContext } from "react";
+import { DrizzleContext } from "@/db/DrizzleContext";
 
-const useDatabase = () => {
-  const db = useSQLiteContext();
-  const drizzleDB = drizzle(db);
-  return drizzleDB;
-};
-
-export default useDatabase;
+export default function useDatabase() {
+  return useContext(DrizzleContext);
+}

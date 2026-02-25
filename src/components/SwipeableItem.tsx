@@ -1,5 +1,4 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";

@@ -1,28 +1,27 @@
 {
   "expo": {
     "scheme": "acme",
-    "plugins": [
-      "expo-router",
-      "expo-sqlite"
-    ],
+    "plugins": ["expo-router", "expo-sqlite"],
+    "sdkVersion": "54.0.0",
     "web": {
       "bundler": "metro"
     },
     "name": "BudgetLog",
     "slug": "budgetlog",
     "icon": "./src/assets/icon.png",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "version": "1.0.0",
+    "assetBundlePatterns": ["**/*"],
+    "version": "1.1.0",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "android": {
-      "package": "com.dailyclassbook.app"
+      "package": "com.budgetlog.app",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "ios": {
-      "bundleIdentifier": "com.dailyclassbook.app"
+      "bundleIdentifier": "com.budgetlog.app",
+      "supportsTablet": true
     },
+
     "extra": {
       "router": {
         "origin": false

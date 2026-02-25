@@ -32,7 +32,16 @@
     "edit_account": "Edit Account",
     "save_account": "Save Account",
     "update_account": "Update Account",
-    "transfer": "Transfer"
+    "transfer": "Transfer",
+    "placeholders": {
+      "account_name": "Enter the account name",
+      "initial_value": "Enter the current balance"
+    },
+    "error": {
+      "name_required": "Account name is required",
+      "balance_required": "Initial value is required",
+      "negative_balance": "Initial value cannot be negative"
+    }
   },
   "navigation": {
     "home": "Home",

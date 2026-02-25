@@ -1,34 +1,36 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import { Text, View, ScrollView, Pressable } from "react-native";
-// import Icon from "react-native-vector-icons/Ionicons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { getAccounts } from "@/db/queries/accounts";
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useTranslation } from "react-i18next";
 import { Account } from "@/db/schema";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import useDatabase from "@/hooks/useDatabase";
 import AccountBottomSheet from "./AccountBottomSheet";
 import { cn } from "@/utils";
 import { COLORS } from "@/theme";
+import {
+  BottomSheetProvider,
+  useBottomSheet,
+} from "@/contexts/bottomSheet.context";
 
-const AccountsContainer = () => {
+const AccountsContainerInner = () => {
   const drizzleDB = useDatabase();
   const { data: accounts } = useLiveQuery(getAccounts(drizzleDB));
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const { onSheetOpen } = useBottomSheet();
   const { t } = useTranslation();
 
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
 
   const handlePress = (account: Account) => {
     setSelectedAccount(account);
-    bottomSheetModalRef.current?.present();
+    onSheetOpen();
   };
 
   const handleAddAccount = () => {
     setSelectedAccount(null);
-    bottomSheetModalRef.current?.present();
+    onSheetOpen();
   };
 
   return (
@@ -37,7 +39,7 @@ const AccountsContainer = () => {
         className={cn(
           "bg-containerBackground-light dark:bg-containerBackground-dark",
           "p-padding-default gap-gap-lg rounded-b-2xl",
-          "shadow-md"
+          "shadow-md",
         )}
       >
         <View className="flex-row justify-between items-center">
@@ -58,7 +60,7 @@ const AccountsContainer = () => {
               delayLongPress={500}
               className={cn(
                 "bg-primary rounded-lg items-center mr-margin-md",
-                "p-padding-default"
+                "p-padding-default",
               )}
             >
               <Text className="text-text-default text-white">{item.name}</Text>
@@ -83,13 +85,18 @@ const AccountsContainer = () => {
       </View>
 
       <AccountBottomSheet
-        bottomSheetModalRef={bottomSheetModalRef}
         account={selectedAccount}
-        onSave={() => {
-          setSelectedAccount(null);
-        }}
+        onSave={() => setSelectedAccount(null)}
       />
     </>
+  );
+};
+
+const AccountsContainer = () => {
+  return (
+    <BottomSheetProvider>
+      <AccountsContainerInner />
+    </BottomSheetProvider>
   );
 };
 

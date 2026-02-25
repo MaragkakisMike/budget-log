@@ -1,4 +1,3 @@
-import React from "react";
 import { Pressable, Text } from "react-native";
 import type { PressableProps } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -38,7 +37,7 @@ export const Button = ({
           "bg-containerBackground-light dark:bg-containerBackground-dark border-2 border-primary",
         variant === "outlineDanger" &&
           "bg-containerBackground-light dark:bg-containerBackground-dark border-2 border-red",
-        disabled && "opacity-50"
+        disabled && "opacity-50",
       )}
       style={({ pressed }) => [
         pressed && { opacity: 0.8, transform: [{ scale: 0.98 }] },
@@ -62,7 +61,7 @@ export const Button = ({
           "text-text-default font-semibold text-center",
           variant === "outline" && "text-primary",
           variant === "outlineDanger" && "text-red",
-          variant !== "outline" && variant !== "outlineDanger" && "text-white"
+          variant !== "outline" && variant !== "outlineDanger" && "text-white",
         )}
       >
         {title}
